@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,Dimitrios Grammatikos,CA,25.00,Tile,150,3.50,4.15,525.00,622.50,286.8750,1434.3750

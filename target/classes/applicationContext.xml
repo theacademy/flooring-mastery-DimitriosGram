@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- View and IO -->
+    <bean id="userIO" class="com.mthree.flooringmastery.view.UserIOConsoleImpl"/>
+    <bean id="view" class="com.mthree.flooringmastery.view.FlooringView">
+        <constructor-arg ref="userIO"/>
+    </bean>
+
+    <!-- DAO Layer -->
+    <bean id="orderDao" class="com.mthree.flooringmastery.dao.OrderDaoFileImpl"/>
+    <bean id="productDao" class="com.mthree.flooringmastery.dao.ProductDaoFileImpl"/>
+    <bean id="taxDao" class="com.mthree.flooringmastery.dao.TaxDaoFileImpl"/>
+
+    <!-- Service Layer -->
+    <bean id="service" class="com.mthree.flooringmastery.service.FlooringServiceImpl">
+        <constructor-arg ref="orderDao"/>
+        <constructor-arg ref="productDao"/>
+        <constructor-arg ref="taxDao"/>
+    </bean>
+
+    <!-- Controller -->
+    <bean id="controller" class="com.mthree.flooringmastery.controller.FlooringController">
+        <constructor-arg ref="service"/>
+        <constructor-arg ref="view"/>
+    </bean>
+
+</beans>
