@@ -48,11 +48,13 @@ public class FlooringServiceImpl implements FlooringService {
             throw new DataPersistenceException("Tax data not found for state: " + state);
         }
 
+
         // --- Load and validate product ---
         Product product = productDao.getProduct(productType);
         if (product == null) {
             throw new DataPersistenceException("Product data not found for product type: " + productType);
         }
+
 
         // --- Create new order object ---
         Order order = new Order();
@@ -63,14 +65,6 @@ public class FlooringServiceImpl implements FlooringService {
         order.setArea(area);
         order.setCostPerSquareFoot(product.getCostPerSquareFoot());
         order.setLaborCostPerSquareFoot(product.getLaborCostPerSquareFoot());
-
-        // --- Debug Info ---
-        System.out.println("DEBUG: Tax object = " + tax);
-        System.out.println("DEBUG: Tax rate = " + tax.getTaxRate());
-        System.out.println("DEBUG: Product object = " + product);
-        System.out.println("DEBUG: Product cost/sqft = " + product.getCostPerSquareFoot());
-        System.out.println("DEBUG: orderDao = " + orderDao);
-        System.out.println("DEBUG: order = " + order);
 
         // --- Perform calculations ---
         BigDecimal materialCost = area.multiply(product.getCostPerSquareFoot());
@@ -94,12 +88,48 @@ public class FlooringServiceImpl implements FlooringService {
         return order;
     }
 
-
-
-
     @Override
     public void addOrder(LocalDate date, Order order) throws DataPersistenceException {
         orderDao.addOrder(date, order);
     }
+
+    @Override
+    public Order getOrder(LocalDate date, int orderNumber) throws DataPersistenceException {
+        return orderDao.getOrder(date, orderNumber);
+    }
+
+    @Override
+    public void updateOrder(LocalDate date, Order order) throws DataPersistenceException {
+        // Recalculate pricing before saving
+        Product product = productDao.getProduct(order.getProductType());
+        Tax tax = taxDao.getTax(order.getState());
+
+        if (product != null && tax != null) {
+            order.setCostPerSquareFoot(product.getCostPerSquareFoot());
+            order.setLaborCostPerSquareFoot(product.getLaborCostPerSquareFoot());
+            order.setTaxRate(tax.getTaxRate());
+
+            BigDecimal materialCost = order.getArea().multiply(order.getCostPerSquareFoot());
+            BigDecimal laborCost = order.getArea().multiply(order.getLaborCostPerSquareFoot());
+            BigDecimal taxTotal = (materialCost.add(laborCost))
+                    .multiply(order.getTaxRate().divide(new BigDecimal("100")));
+            BigDecimal total = materialCost.add(laborCost).add(taxTotal);
+
+            order.setMaterialCost(materialCost);
+            order.setLaborCost(laborCost);
+            order.setTax(taxTotal);
+            order.setTotal(total);
+        }
+
+        orderDao.updateOrder(date, order);
+    }
+
+    @Override
+    public void removeOrder(LocalDate date, int orderNumber) throws DataPersistenceException {
+        orderDao.removeOrder(date, orderNumber);
+    }
+
+
+
 
 }

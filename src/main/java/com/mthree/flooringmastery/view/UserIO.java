@@ -2,6 +2,7 @@ package com.mthree.flooringmastery.view;
 
 import java.math.BigDecimal;
 
+// Defines basic input/output operations for user interaction
 public interface UserIO {
 
     void print(String message);

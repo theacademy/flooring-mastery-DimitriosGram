@@ -11,5 +11,8 @@ public interface OrderDao {
     void removeOrder(LocalDate date, int orderNumber) throws DataPersistenceException;
     void saveCurrentWork() throws DataPersistenceException;
     int getNextOrderNumber(LocalDate date) throws DataPersistenceException;
+    Order getOrder(LocalDate date, int orderNumber) throws DataPersistenceException;
+    void updateOrder(LocalDate date, Order updatedOrder) throws DataPersistenceException;
+
 
 }

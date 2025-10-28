@@ -1,1 +1,2 @@
 OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,James Lee,CA,25.00,Wood,189,5.15,4.75,973.35,897.75,467.7750,2338.8750

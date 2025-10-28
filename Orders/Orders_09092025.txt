@@ -1,1 +1,2 @@
 OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,Jogn,TX,4.45,tile,190,3.50,4.15,665.00,788.50,64.680750,1518.180750

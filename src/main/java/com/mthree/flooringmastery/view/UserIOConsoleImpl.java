@@ -103,19 +103,6 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        while (true) {
-            try {
-                String input = readString(prompt);
-                BigDecimal value = new BigDecimal(input);
-                if (value.compareTo(BigDecimal.ZERO) > 0) {
-                    return value;
-                } else {
-                    System.out.println("Please enter a positive number.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid decimal number. Please try again.");
-            }
-        }
+        return null;
     }
-
 }

@@ -36,4 +36,7 @@ public class Tax {
     public String toString() {
         return stateName + " (" + stateAbbreviation + ") - " + taxRate + "%";
     }
+
+    public void setStateAbbr(String tx) {
+    }
 }
