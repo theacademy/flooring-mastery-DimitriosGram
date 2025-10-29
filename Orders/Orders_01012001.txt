@@ -1,3 +1,3 @@
 OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
-1,dimi,CA,25.00,tile,100,3.50,4.15,350.00,415.00,191.2500,956.2500
-2,dimi,CA,25.00,tile,100,3.50,4.15,350.00,415.00,191.2500,956.2500
+1,Dimitrios Gramm,TX,4.45,wood,187,5.15,4.75,963.05,888.25,82.382850,1933.682850
+3,Dimitris,CA,25.00,wood,199,5.15,4.75,1024.85,945.25,492.5250,2462.6250

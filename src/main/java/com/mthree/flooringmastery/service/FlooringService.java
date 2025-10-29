@@ -18,7 +18,7 @@ public interface FlooringService {
     List<Tax> getAllTaxes() throws DataPersistenceException;
 
     Order createOrder(LocalDate date, String customerName, String state,
-                      String productType, BigDecimal area) throws DataPersistenceException;
+                      String productType, BigDecimal area) throws DataPersistenceException, OrderValidationException;
 
     void addOrder(LocalDate date, Order order) throws DataPersistenceException;
 

@@ -2,6 +2,7 @@ package com.mthree.flooringmastery.service;
 
 import com.mthree.flooringmastery.dao.*;
 import com.mthree.flooringmastery.model.*;
+import com.mthree.flooringmastery.model.Order;
 import org.junit.jupiter.api.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class FlooringServiceImplTest {
      * when a valid product and tax are provided.
      */
     @Test
-    void testCreateOrderCalculations() throws DataPersistenceException {
+    void testCreateOrderCalculations() throws DataPersistenceException, OrderValidationException  {
         LocalDate date = LocalDate.of(2025, 1, 1);
 
         // Create a new valid order
@@ -74,4 +75,56 @@ public class FlooringServiceImplTest {
 
         System.out.println("✅ Exception correctly thrown for invalid product type.");
     }
+
+    @Test
+    void testThrowsExceptionForInvalidState() {
+        LocalDate date = LocalDate.of(2025, 1, 1);
+
+        assertThrows(DataPersistenceException.class, () -> {
+            service.createOrder(date, "John", "InvalidState", "Tile", new BigDecimal("100"));
+        });
+
+        System.out.println("✅ Exception correctly thrown for invalid state abbreviation.");
+    }
+
+    @Test
+    void testGetNextOrderNumberIncrementsProperly() throws DataPersistenceException, OrderValidationException {
+        LocalDate date = LocalDate.of(2025, 1, 1);
+
+        Order order1 = service.createOrder(date, "Alice", "TX", "Tile", new BigDecimal("120"));
+        service.getOrderDao().addOrder(date, order1);
+
+        Order order2 = service.createOrder(date, "Bob", "TX", "Tile", new BigDecimal("150"));
+        service.getOrderDao().addOrder(date, order2);
+
+        int nextOrderNumber = service.getOrderDao().getNextOrderNumber(date);
+
+        assertEquals(3, nextOrderNumber, "Next order number should increment correctly.");
+    }
+
+
+    @Test
+    void testThrowsExceptionForInvalidArea() {
+        LocalDate date = LocalDate.of(2025, 1, 1);
+
+        assertThrows(OrderValidationException.class, () -> {
+            service.createOrder(date, "John", "TX", "Tile", new BigDecimal("50"));
+        });
+
+        System.out.println("✅ Exception correctly thrown for area below minimum limit.");
+    }
+
+    @Test
+    void testAddAndRetrieveOrder() throws DataPersistenceException, OrderValidationException {
+        LocalDate date = LocalDate.of(2025, 1, 1);
+
+        Order newOrder = service.createOrder(date, "Eve", "TX", "Tile", new BigDecimal("150"));
+        service.getOrderDao().addOrder(date, newOrder);
+
+        Order retrieved = service.getOrderDao().getOrder(date, newOrder.getOrderNumber());
+
+        assertNotNull(retrieved, "Order should be retrievable after being added.");
+        assertEquals("Eve", retrieved.getCustomerName());
+    }
+
 }

@@ -3,6 +3,7 @@ package com.mthree.flooringmastery.controller;
 import com.mthree.flooringmastery.model.Order;
 import com.mthree.flooringmastery.service.DataPersistenceException;
 import com.mthree.flooringmastery.service.FlooringService;
+import com.mthree.flooringmastery.service.OrderValidationException;
 import com.mthree.flooringmastery.view.FlooringView;
 
 import java.math.BigDecimal;
@@ -130,8 +131,6 @@ public class FlooringController {
             }
         }
 
-
-
         // --- Get valid product type ---
         String productType = "";
         boolean validProduct = false;
@@ -166,10 +165,6 @@ public class FlooringController {
             }
         }
 
-
-
-
-
         // --- Get valid area ---
         BigDecimal area = null;
         while (area == null) {
@@ -197,15 +192,16 @@ public class FlooringController {
             } else {
                 view.displayMessage("Order cancelled.");
             }
+
+        } catch (OrderValidationException e) {
+            view.displayMessage("Invalid order: " + e.getMessage());
+
         } catch (DataPersistenceException e) {
             view.displayMessage("Error: Could not create order. " + e.getMessage());
         }
     }
 
-
-
-
-    private void editOrder() throws DataPersistenceException {
+        private void editOrder() throws DataPersistenceException {
         view.printDivider();
 
         LocalDate date = null;

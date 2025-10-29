@@ -40,7 +40,11 @@ public class FlooringServiceImpl implements FlooringService {
 
     @Override
     public Order createOrder(LocalDate date, String customerName, String state,
-                             String productType, BigDecimal area) throws DataPersistenceException {
+                             String productType, BigDecimal area) throws DataPersistenceException,OrderValidationException  {
+        // --- Validate minimum area requirement ---
+        if (area == null || area.compareTo(new BigDecimal("100")) < 0) {
+            throw new OrderValidationException("Area must be at least 100 sq ft.");
+        }
 
         // --- Load and validate tax ---
         Tax tax = taxDao.getTax(state);
@@ -54,7 +58,6 @@ public class FlooringServiceImpl implements FlooringService {
         if (product == null) {
             throw new DataPersistenceException("Product data not found for product type: " + productType);
         }
-
 
         // --- Create new order object ---
         Order order = new Order();
@@ -81,9 +84,6 @@ public class FlooringServiceImpl implements FlooringService {
         // --- Generate and set order number ---
         int nextOrderNumber = orderDao.getNextOrderNumber(date);
         order.setOrderNumber(nextOrderNumber);
-
-//        // --- Save order to file ---
-//        orderDao.addOrder(date, order);
 
         return order;
     }
@@ -137,6 +137,11 @@ public class FlooringServiceImpl implements FlooringService {
     @Override
     public Tax getTax(String state) throws DataPersistenceException {
         return taxDao.getTax(state);
+    }
+
+    // For testing purposes only
+    public OrderDao getOrderDao() {
+        return orderDao;
     }
 
 }

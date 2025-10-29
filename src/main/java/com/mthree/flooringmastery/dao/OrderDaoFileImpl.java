@@ -53,7 +53,6 @@ public class OrderDaoFileImpl implements OrderDao {
         return orders;
     }
 
-
     @Override
     public void addOrder(LocalDate date, Order order) throws DataPersistenceException {
         String fileName = ORDER_FOLDER + FILE_PREFIX + date.format(FILE_DATE_FORMAT) + FILE_SUFFIX;
@@ -89,7 +88,6 @@ public class OrderDaoFileImpl implements OrderDao {
             throw new DataPersistenceException("Could not save order data.", e);
         }
     }
-
 
     @Override
     public void removeOrder(LocalDate date, int orderNumber) throws DataPersistenceException {
