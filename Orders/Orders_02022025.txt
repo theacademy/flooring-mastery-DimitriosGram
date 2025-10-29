@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,dim,tx,4.45,wood,120,5.15,4.75,618.00,570.00,52.866000,1240.866000
