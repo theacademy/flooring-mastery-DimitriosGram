@@ -28,5 +28,10 @@ public interface FlooringService {
 
     void removeOrder(LocalDate date, int orderNumber) throws DataPersistenceException;
 
+    Product getProduct(String productType) throws DataPersistenceException;
+
+    Tax getTax(String state) throws DataPersistenceException;
+
+
 }
 

@@ -103,6 +103,31 @@ public class UserIOConsoleImpl implements UserIO {
 
     @Override
     public BigDecimal readBigDecimal(String prompt) {
-        return null;
+        BigDecimal value = null;
+        boolean valid = false;
+
+        while (!valid) {
+            try {
+                String input = readString(prompt);
+
+                // ✅ Stop infinite loops if user enters nothing or scanner breaks
+                if (input == null || input.trim().isEmpty()) {
+                    System.out.println("⚠️ Input cannot be empty. Please try again.");
+                    continue;
+                }
+
+                value = new BigDecimal(input.trim());
+                valid = true;
+
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Please enter a valid numeric value for area.");
+            } catch (Exception e) {
+                System.out.println("⚠️ Unexpected input error. Returning to menu.");
+                break; // ✅ prevents infinite recursion
+            }
+        }
+
+        return value;
     }
+
 }

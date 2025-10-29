@@ -82,8 +82,8 @@ public class FlooringServiceImpl implements FlooringService {
         int nextOrderNumber = orderDao.getNextOrderNumber(date);
         order.setOrderNumber(nextOrderNumber);
 
-        // --- Save order to file ---
-        orderDao.addOrder(date, order);
+//        // --- Save order to file ---
+//        orderDao.addOrder(date, order);
 
         return order;
     }
@@ -129,7 +129,14 @@ public class FlooringServiceImpl implements FlooringService {
         orderDao.removeOrder(date, orderNumber);
     }
 
+    @Override
+    public Product getProduct(String productType) throws DataPersistenceException {
+        return productDao.getProduct(productType);
+    }
 
-
+    @Override
+    public Tax getTax(String state) throws DataPersistenceException {
+        return taxDao.getTax(state);
+    }
 
 }

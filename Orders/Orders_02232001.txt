@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,jon,TX,4.45,wood,176,5.15,4.75,906.40,836.00,77.536800,1819.936800
